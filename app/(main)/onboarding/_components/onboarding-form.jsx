@@ -1,7 +1,7 @@
-const OnboardingForm = ({ industries }) => {
+const OnboardingForm = ({industries}) => {
   return (
     <div>OnboardingForm</div>
-  );
-};
+  )
+}
 
-export default OnboardingForm;
+export default OnboardingForm
