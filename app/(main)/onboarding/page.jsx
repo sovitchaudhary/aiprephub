@@ -1,7 +1,13 @@
-const OnboardingPage = () => {
-  return (
-    <div>OnboardingPage</div>
-  )
-}
+import { industries } from "@/data/industries";
 
-export default OnboardingPage
+const OnboardingPage = () => {
+  // Check if user is already onboarded
+
+  return (
+    <main>
+      <OnboardingPage industries={industries} />
+    </main>
+  );
+};
+
+export default OnboardingPage;
