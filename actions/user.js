@@ -59,7 +59,7 @@ export async function updateUser(data) {
 
     return { success: true, ...result };
   } catch (error) {
-    onsole.error("Error updating user and industry:", error.message);
+    console.error("Error updating user and industry:", error.message);
     throw new Error("Failed to update profile" + error.message);
   }
 }
