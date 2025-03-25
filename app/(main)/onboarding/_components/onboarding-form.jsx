@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 import {
   Card,
@@ -26,10 +28,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { onboardingSchema } from "@/app/lib/schema";
+import useFetch from "@/hooks/use-fetch";
+import { updateUser } from "@/actions/user";
 
 const OnboardingForm = ({ industries }) => {
   const router = useRouter();
   const [selectedIndustry, setSelectedIndustry] = useState(null);
+
+  const {
+    loading: updateLoading,
+    fn: updateUserFn,
+    data: updateResult,
+  } = useFetch(updateUser);
 
   const {
     register,
@@ -42,8 +52,28 @@ const OnboardingForm = ({ industries }) => {
   });
 
   const onSubmit = async (values) => {
-    console.log(values);
+    //console.log(values);
+    try {
+      const formattedIndustry = `${values.industry}-${values.subIndustry
+        .toLowerCase()
+        .replace(/ /g, "-")}`;
+
+      await updateUserFn({
+        ...values,
+        industry: formattedIndustry,
+      });
+    } catch (error) {
+      console.error("Onboarding error:", error);
+    }
   };
+
+  useEffect(() => {
+    if (updateResult?.success && !updateLoading) {
+      toast.success("Profile completed successfully!");
+      router.push("/dashboard");
+      router.refresh();
+    }
+  }, [updateResult, updateLoading]);
 
   const watchIndustry = watch("industry");
 
@@ -93,29 +123,33 @@ const OnboardingForm = ({ industries }) => {
               )}
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="subIndustry">Specialization</Label>
-              <Select onValueChange={(value) => setValue("subIndustry", value)}>
-                <SelectTrigger id="subIndustry">
-                  <SelectValue placeholder="Select your specialization" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Specializations</SelectLabel>
-                    {selectedIndustry?.subIndustries.map((sub) => (
-                      <SelectItem key={sub} value={sub}>
-                        {sub}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              {errors.subIndustry && (
-                <p className="text-sm text-red-500">
-                  {errors.subIndustry.message}
-                </p>
-              )}
-            </div>
+            {watchIndustry && (
+              <div className="space-y-2">
+                <Label htmlFor="subIndustry">Specialization</Label>
+                <Select
+                  onValueChange={(value) => setValue("subIndustry", value)}
+                >
+                  <SelectTrigger id="subIndustry">
+                    <SelectValue placeholder="Select your specialization" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Specializations</SelectLabel>
+                      {selectedIndustry?.subIndustries.map((sub) => (
+                        <SelectItem key={sub} value={sub}>
+                          {sub}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                {errors.subIndustry && (
+                  <p className="text-sm text-red-500">
+                    {errors.subIndustry.message}
+                  </p>
+                )}
+              </div>
+            )}
 
             <div className="space-y-2">
               <Label htmlFor="experience">Years of Experience</Label>
@@ -162,8 +196,15 @@ const OnboardingForm = ({ industries }) => {
               )}
             </div>
 
-            <Button type="submit" className="w-full">
-              Comlete Profile
+            <Button type="submit" className="w-full" disabled={updateLoading}>
+              {updateLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                "Complete Profile"
+              )}
             </Button>
           </form>
         </CardContent>

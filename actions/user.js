@@ -8,9 +8,7 @@ export async function updateUser(data) {
   if (!userId) throw new Error("Unauthorized");
 
   const user = await db.user.findUnique({
-    where: {
-      clerkUserId: user.id,
-    },
+    where: { clerkUserId: userId },
   });
 
   if (!user) throw new Error("User not found");
@@ -32,9 +30,9 @@ export async function updateUser(data) {
               industry: data.industry,
               salaryRanges: [], // Default empty array
               growthRate: 0, // Default value
-              demandLevel: "Medium", // Default value
-              toSkills: [], // Default empty array
-              marketOutlook: "Neutral", // Default value
+              demandLevel: "MEDIUM", // Default value
+              topSkills: [], // Default empty array
+              marketOutlook: "NEUTRAL", // Default value
               keyTrends: [], // Default empty array
               recommendedSkills: [], // Default empty array
               nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week from now
@@ -62,10 +60,10 @@ export async function updateUser(data) {
       }
     );
 
-    return result.user;
+    return { success: true, ...result };
   } catch (error) {
     onsole.error("Error updating user and industry:", error.message);
-    throw new Error("Failed to update profile");
+    throw new Error("Failed to update profile" + error.message);
   }
 }
 
@@ -74,9 +72,7 @@ export async function getUserOnboardingStatus() {
   if (!userId) throw new Error("Unauthorized");
 
   const user = await db.user.findUnique({
-    where: {
-      clerkUserId: userId,
-    },
+    where: { clerkUserId: userId },
   });
 
   if (!user) throw new Error("User not found");

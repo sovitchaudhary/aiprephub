@@ -1,12 +1,20 @@
 import { getUserOnboardingStatus } from "@/actions/user";
 import { redirect } from "next/navigation";
 
-const IndustryInsightsPage = async () => {
+export default async function DashboardPage() {
   const { isOnboarded } = await getUserOnboardingStatus();
-  if (isOnboarded) {
-  }
-  redirect("/onboarding");
-  return <div>IndustryInsightsPage</div>;
-};
 
-export default IndustryInsightsPage;
+  // If not onboarded, redirect to onboarding page
+  // Skip this check if already on the onboarding page
+  if (!isOnboarded) {
+    redirect("/onboarding");
+  }
+
+
+
+  return (
+    <div className="container mx-auto">
+      hello
+    </div>
+  );
+}
