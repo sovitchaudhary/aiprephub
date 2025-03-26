@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Quiz from "../_components/quiz";
+// import Quiz from "../_components/quiz";
+import Questions from "../_components/questions";
 
-export default function MockInterviewPage() {
+export default function PreparationPage() {
   return (
     <div className="container mx-auto space-y-4 py-6">
       <div className="flex flex-col space-y-2 mx-2">
@@ -15,14 +16,15 @@ export default function MockInterviewPage() {
         </Link>
 
         <div>
-          <h1 className="text-6xl font-bold gradient-title">Mock Interview</h1>
+          <h1 className="text-6xl font-bold gradient-title">Interview Preparation</h1>
           <p className="text-muted-foreground">
             Test your knowledge with industry-specific questions
           </p>
         </div>
       </div>
 
-      <Quiz />
+      {/* <Quiz /> */}
+      <Questions />
     </div>
   );
 }

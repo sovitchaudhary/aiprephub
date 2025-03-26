@@ -101,7 +101,7 @@ export default function Quiz() {
     return (
       <Card className="mx-2">
         <CardHeader>
-          <CardTitle>Ready to test your knowledge?</CardTitle>
+          <CardTitle>Ready to test your knowledge by MCQ</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
