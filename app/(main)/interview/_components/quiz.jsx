@@ -13,9 +13,9 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { generateQuiz, saveQuizResult } from "@/actions/interview";
-import QuizResult from "./quiz-result";
 import useFetch from "@/hooks/use-fetch";
 import { BarLoader } from "react-spinners";
+import Result from "./result";
 
 export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -92,7 +92,7 @@ export default function Quiz() {
   if (resultData) {
     return (
       <div className="mx-2">
-        <QuizResult result={resultData} onStartNew={startNewQuiz} />
+        <Result result={resultData} onStartNew={startNewQuiz} />
       </div>
     );
   }
