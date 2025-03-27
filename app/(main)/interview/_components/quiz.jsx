@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
+import Webcam from "react-webcam";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Camera, CameraOff } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { generateQuiz, saveQuizResult } from "@/actions/interview";
 import useFetch from "@/hooks/use-fetch";
@@ -21,6 +23,8 @@ export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [showExplanation, setShowExplanation] = useState(false);
+  const [webcamEnabled, setWebcamEnabled] = useState(false);
+  const webcamRef = useRef(null);
 
   const {
     loading: generatingQuiz,
@@ -84,6 +88,14 @@ export default function Quiz() {
     setResultData(null);
   };
 
+  const captureImage = () => {
+    if (webcamRef.current) {
+      const imageSrc = webcamRef.current.getScreenshot();
+      console.log("Captured Image:", imageSrc);
+      toast.success("Image captured!");
+    }
+  };
+
   if (generatingQuiz) {
     return <BarLoader className="mt-4" width={"100%"} color="gray" />;
   }
@@ -141,6 +153,19 @@ export default function Quiz() {
             </div>
           ))}
         </RadioGroup>
+
+        <div className="mt-2 flex gap-4">
+          <Button
+            onClick={() => setWebcamEnabled((prev) => !prev)}
+            variant="outline"
+          >
+            {webcamEnabled ? (
+              <CameraOff className="w-5 h-5" />
+            ) : (
+              <Camera className="w-5 h-5" />
+            )}
+          </Button>
+        </div>
 
         {showExplanation && (
           <div className="mt-4 p-4 bg-muted rounded-lg">

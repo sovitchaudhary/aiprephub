@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-// import Quiz from "../_components/quiz";
-import Questions from "../_components/questions";
+import Quiz from "../_components/quiz";
+// import Questions from "../_components/questions";
 
 export default function PreparationPage() {
   return (
@@ -23,8 +23,8 @@ export default function PreparationPage() {
         </div>
       </div>
 
-      {/* <Quiz /> */}
-      <Questions />
+      <Quiz />
+      {/* <Questions /> */}
     </div>
   );
 }
