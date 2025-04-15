@@ -35,9 +35,9 @@ const Header = async() => {
           <Image
             src={"/logo.png"}
             alt="logo"
-            width={200}
-            height={60}
-            className="h-12 py-1 w-auto object-contain"
+            width={100}
+            height={400}
+            className=" py-1 w-auto object-contain"
           />
         </Link>
         {/* Action Buttons */}
