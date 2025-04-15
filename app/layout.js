@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
             {/* footer section */}
             <footer className="bg-muted/50 py-12">
               <div className="container mx-auto px-4 text-center text-gray-300">
-                <p>developed by SMJ Group</p>
+                <p className="text-black">developed by SMJ Group</p>
               </div>
             </footer>
           </ThemeProvider>
